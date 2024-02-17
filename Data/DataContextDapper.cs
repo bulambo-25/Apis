@@ -2,6 +2,7 @@
 using System.Data;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 // Defining the namespace for the HelloWorld.Data
 namespace HelloWorld.Data
@@ -9,8 +10,13 @@ namespace HelloWorld.Data
     // Defining the DataContextDapper class
      public class DataContextDapper
     {
-        // private string _connectionString = "Server=localhost;Database=DotNetCourseDatabase;Trusted_connection=false;TrustServerCertificate=True;User Id=sa;Password=SQLConnect1;";
-        private string _connectionString = "Server=localhost;Database=DotNetCourseDatabase;Trusted_Connection=true;TrustServerCertificate=true;";
+        // private IConfiguration _config;
+        private string? _connectionString;
+        public DataContextDapper(IConfiguration config)
+        {
+            // _config = config;
+            _connectionString = config.GetConnectionString("DefaultConnection");
+        }
             
         public IEnumerable<T> LoadData<T>(string sql)
         {

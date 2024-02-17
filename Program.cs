@@ -1,6 +1,7 @@
 ﻿// Importing necessary namespaces
 using HelloWorld.Data;
 using HelloWorld.Models;
+using Microsoft.Extensions.Configuration;
 
 // Defining the namespace for the HelloWorld program
 namespace HelloWorld
@@ -12,8 +13,11 @@ namespace HelloWorld
         public static void Main(string[] args)
         {   
             // Creating an instance of DataContextDapper
-            DataContextDapper dapper = new DataContextDapper();
-            DataContextEF entityFramework = new DataContextEF();
+             IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsetting.json")
+                .Build();
+            DataContextDapper dapper = new DataContextDapper(config);
+            DataContextEF entityFramework = new DataContextEF(config);
 
             DateTime rightNow = dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
 
